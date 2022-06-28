@@ -79,12 +79,15 @@ public class Main_Geometrie {
 	private JTextField tf_Rechteck_flaeche;
 	private JTextField tf_Rechteck_alpha;
 	
+	private static int div = 100;
+	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				
 				try {
 					String configFilePath = "config.cfg";
 					FileInputStream propsInput;	
@@ -92,7 +95,7 @@ public class Main_Geometrie {
 						propsInput = new FileInputStream(configFilePath);
 					} catch (FileNotFoundException f) {
 						try {
-							List<String> lines = Arrays.asList("// MySQL oder SQLite", "DB_TYPE=SQLite", "DB_HOST=localhost", "DB_TABLE=tai21_geometrie", "DB_USER=root", "DB_PASSWORD=1111");
+							List<String> lines = Arrays.asList("// MySQL oder SQLite", "DB_TYPE=SQLite", "DB_HOST=localhost", "DB_TABLE=tai21_geometrie", "DB_USER=root", "DB_PASSWORD=1111", "COMMA=2");
 							Path file = Paths.get("config.cfg");
 							Files.write(file, lines, StandardCharsets.UTF_8);
 						} catch (IOException e) {
@@ -107,11 +110,21 @@ public class Main_Geometrie {
 					prop.load(propsInput);
 					//System.out.println(prop.getProperty("DB_USER"));
 					//for the Debug: jdbc:mysql://localhost/tai21_geometrie?profileSQL=true
-					String url = "jdbc:mysql://"+prop.getProperty("DB_HOST")+"/"+prop.getProperty("DB_TABLE")+"?profileSQL=true";
+					String url = "jdbc:mysql://"+prop.getProperty("DB_HOST")+"/"+prop.getProperty("DB_TABLE");
 					String user = prop.getProperty("DB_USER");
 					String pwd = prop.getProperty("DB_PASSWORD");
 					String type = prop.getProperty("DB_TYPE");
-					
+					String comma = prop.getProperty("COMMA");
+					try {
+					if (Integer.valueOf(comma)!=null && Double.parseDouble(comma) > 0) {
+						String comma2 = String.valueOf(comma);
+						div = (int) Math.pow(10, Double.parseDouble(comma2));
+						//System.out.println(comma2);
+					}
+					} catch (NumberFormatException g) {
+						JFrame frmerror = new JFrame();
+						JOptionPane.showMessageDialog(frmerror, "No Decimals at comma in Config. using fallback.", "Error", JOptionPane.ERROR_MESSAGE);
+					}
 					if(Datenbank.testDB(url, user, pwd, type)) {
 						Main_Geometrie window = new Main_Geometrie();
 						window.frmGeometrie.setVisible(true);
@@ -135,6 +148,8 @@ public class Main_Geometrie {
 		myCL = new CardLayout();
 		initialize();
 		myCL.show(frmGeometrie.getContentPane(), "panel_Main");
+		
+		
 	}
 
 	/**
@@ -630,40 +645,40 @@ public class Main_Geometrie {
 		Datenbank.save_DB(dreieck);
 		
 		if(tf_Dreieck_a.getText().isEmpty()) {
-			tf_Dreieck_a.setText(String.valueOf((double) Math.round(dreieck.getSidea() * 100) / 100).replace(".", ","));
+			tf_Dreieck_a.setText(String.valueOf((double) Math.round(dreieck.getSidea() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_b.getText().isEmpty()) {
-			tf_Dreieck_b.setText(String.valueOf((double) Math.round(dreieck.getB() * 100) / 100).replace(".", ","));
+			tf_Dreieck_b.setText(String.valueOf((double) Math.round(dreieck.getB() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_c.getText().isEmpty()) {
-			tf_Dreieck_c.setText(String.valueOf((double) Math.round(dreieck.getC() * 100) / 100).replace(".", ","));
+			tf_Dreieck_c.setText(String.valueOf((double) Math.round(dreieck.getC() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_alpha.getText().isEmpty()) {
-			tf_Dreieck_alpha.setText(String.valueOf((double) Math.round(dreieck.getAlpha() * 100) / 100).replace(".", ","));
+			tf_Dreieck_alpha.setText(String.valueOf((double) Math.round(dreieck.getAlpha() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_beta.getText().isEmpty()) {
-			tf_Dreieck_beta.setText(String.valueOf((double) Math.round(dreieck.getBeta() * 100) / 100).replace(".", ","));
+			tf_Dreieck_beta.setText(String.valueOf((double) Math.round(dreieck.getBeta() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_gamma.getText().isEmpty()) {
-			tf_Dreieck_gamma.setText(String.valueOf((double) Math.round(dreieck.getGamma() * 100) / 100).replace(".", ","));
+			tf_Dreieck_gamma.setText(String.valueOf((double) Math.round(dreieck.getGamma() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_heighta.getText().isEmpty()) {
-			tf_Dreieck_heighta.setText(String.valueOf((double) Math.round(dreieck.getHeighta() * 100) / 100).replace(".", ","));
+			tf_Dreieck_heighta.setText(String.valueOf((double) Math.round(dreieck.getHeighta() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_heightb.getText().isEmpty()) {
-			tf_Dreieck_heightb.setText(String.valueOf((double) Math.round(dreieck.getHeightb() * 100) / 100).replace(".", ","));
+			tf_Dreieck_heightb.setText(String.valueOf((double) Math.round(dreieck.getHeightb() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_heightc.getText().isEmpty()) {
-			tf_Dreieck_heightc.setText(String.valueOf((double) Math.round(dreieck.getHeightc() * 100) / 100).replace(".", ","));
+			tf_Dreieck_heightc.setText(String.valueOf((double) Math.round(dreieck.getHeightc() * div) / div).replace(".", ","));
 		}
 		if(tf_Dreieck_Umfang.getText().isEmpty()) {
-			tf_Dreieck_Umfang.setText(String.valueOf((double) Math.round(dreieck.getU()*100)/100).replace(".", ","));
+			tf_Dreieck_Umfang.setText(String.valueOf((double) Math.round(dreieck.getU()*div)/div).replace(".", ","));
 		}
 		if(tf_Dreieck_Flaeche.getText().isEmpty()) {
-			tf_Dreieck_Flaeche.setText(String.valueOf((double) Math.round(dreieck.getA()*100)/100).replace(".", ","));
+			tf_Dreieck_Flaeche.setText(String.valueOf((double) Math.round(dreieck.getA()*div)/div).replace(".", ","));
 		}
-		lbl_Dreieck_Inradius_Ergebnis.setText(String.valueOf((double) Math.round(dreieck.getInradius()*100)/100).replace(".", ","));
-		lbl_Dreieck_Umradius_Ergebnis.setText(String.valueOf((double) Math.round(dreieck.getUmradius()*100)/100).replace(".", ","));
+		lbl_Dreieck_Inradius_Ergebnis.setText(String.valueOf((double) Math.round(dreieck.getInradius()*div)/div).replace(".", ","));
+		lbl_Dreieck_Umradius_Ergebnis.setText(String.valueOf((double) Math.round(dreieck.getUmradius()*div)/div).replace(".", ","));
 		// Dreieck ende
 		}
 		});
@@ -937,16 +952,16 @@ public class Main_Geometrie {
 			}
 			
 			if(tf_Kreis_r.getText().isEmpty()) {
-				tf_Kreis_r.setText(String.valueOf((double) Math.round(kreis.getR() * 100) / 100).replace(".", ","));
+				tf_Kreis_r.setText(String.valueOf((double) Math.round(kreis.getR() * div) / div).replace(".", ","));
 			}
 			if(tf_Kreis_d.getText().isEmpty()) {
-				tf_Kreis_d.setText(String.valueOf((double) Math.round(kreis.getD() * 100) / 100).replace(".", ","));
+				tf_Kreis_d.setText(String.valueOf((double) Math.round(kreis.getD() * div) / div).replace(".", ","));
 			}
 			if(tf_Kreis_U.getText().isEmpty()) {
-				tf_Kreis_U.setText(String.valueOf((double) Math.round(kreis.getU() * 100) / 100).replace(".", ","));
+				tf_Kreis_U.setText(String.valueOf((double) Math.round(kreis.getU() * div) / div).replace(".", ","));
 			}
 			if(tf_Kreis_A.getText().isEmpty()) {
-				tf_Kreis_A.setText(String.valueOf((double) Math.round(kreis.getA() * 100) / 100).replace(".", ","));
+				tf_Kreis_A.setText(String.valueOf((double) Math.round(kreis.getA() * div) / div).replace(".", ","));
 			}
 			
 			}
@@ -1336,12 +1351,12 @@ public class Main_Geometrie {
 				if(tf_Rechteck_alpha.getText().isEmpty()) {
 					
 					
-					tf_Rechteck_alpha.setText(String.valueOf((double) Math.round(rechteck.getAlpha() * 100) / 100).replace(".", ","));
+					tf_Rechteck_alpha.setText(String.valueOf((double) Math.round(rechteck.getAlpha() * div) / div).replace(".", ","));
 					
 				}
 				if(tf_Rechteck_beta.getText().isEmpty()) {
 					if (rechteck.getBeta() != null) {
-					tf_Rechteck_beta.setText(String.valueOf((double) Math.round(rechteck.getBeta() * 100) / 100).replace(".", ","));
+					tf_Rechteck_beta.setText(String.valueOf((double) Math.round(rechteck.getBeta() * div) / div).replace(".", ","));
 					} else {
 						JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -1349,7 +1364,7 @@ public class Main_Geometrie {
 				}					
 				if(tf_Rechteck_gamma.getText().isEmpty()) {
 					if (rechteck.getGamma() != null) {
-					tf_Rechteck_gamma.setText(String.valueOf((double) Math.round(rechteck.getGamma() * 100) / 100).replace(".", ","));
+					tf_Rechteck_gamma.setText(String.valueOf((double) Math.round(rechteck.getGamma() * div) / div).replace(".", ","));
 					} else {
 						JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 						return;
@@ -1357,7 +1372,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_delta.getText().isEmpty()) {
 				if (rechteck.getDelta() != null) {
-					tf_Rechteck_delta.setText(String.valueOf((double) Math.round(rechteck.getDelta() * 100) / 100).replace(".", ","));
+					tf_Rechteck_delta.setText(String.valueOf((double) Math.round(rechteck.getDelta() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1365,7 +1380,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_sidea.getText().isEmpty()) {
 					if (rechteck.getSidea() != null) {
-					tf_Rechteck_sidea.setText(String.valueOf((double) Math.round(rechteck.getSidea() * 100) / 100).replace(".", ","));
+					tf_Rechteck_sidea.setText(String.valueOf((double) Math.round(rechteck.getSidea() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1373,7 +1388,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_sideb.getText().isEmpty()) {
 					if (rechteck.getSideb() != null) {
-					tf_Rechteck_sideb.setText(String.valueOf((double) Math.round(rechteck.getSideb() * 100) / 100).replace(".", ","));
+					tf_Rechteck_sideb.setText(String.valueOf((double) Math.round(rechteck.getSideb() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1381,7 +1396,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_umfang.getText().isEmpty()) {
 					if (rechteck.getU() != null) {
-					tf_Rechteck_umfang.setText(String.valueOf((double) Math.round(rechteck.getU() * 100) / 100).replace(".", ","));
+					tf_Rechteck_umfang.setText(String.valueOf((double) Math.round(rechteck.getU() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1389,7 +1404,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_flaeche.getText().isEmpty()) {
 					if (rechteck.getA() != null) {
-					tf_Rechteck_flaeche.setText(String.valueOf((double) Math.round(rechteck.getA() * 100) / 100).replace(".", ","));
+					tf_Rechteck_flaeche.setText(String.valueOf((double) Math.round(rechteck.getA() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1397,7 +1412,7 @@ public class Main_Geometrie {
 				}
 				if(tf_Rechteck_diag.getText().isEmpty()) {
 					if (rechteck.getD() != null) {
-					tf_Rechteck_diag.setText(String.valueOf((double) Math.round(rechteck.getD() * 100) / 100).replace(".", ","));
+					tf_Rechteck_diag.setText(String.valueOf((double) Math.round(rechteck.getD() * div) / div).replace(".", ","));
 				} else {
 					JOptionPane.showMessageDialog(frmGeometrie, "Rechteck ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
 					return;
@@ -1602,16 +1617,16 @@ public class Main_Geometrie {
 			if (((Quadrat) quadrat).getSidea() != null && (((Quadrat) quadrat).getSidea() > 0) && ((Quadrat) quadrat).getD()!=null && ((Quadrat) quadrat).getD()>0) {
 			Datenbank.save_DB(quadrat);
 				if(tf_Quadrat_sidea.getText().isEmpty()) {
-						tf_Quadrat_sidea.setText(String.valueOf((double) Math.round(((Quadrat) quadrat).getSidea() * 100) / 100).replace(".", ","));
+						tf_Quadrat_sidea.setText(String.valueOf((double) Math.round(((Quadrat) quadrat).getSidea() * div) / div).replace(".", ","));
 				} 
 				if(tf_Quadrat_diag.getText().isEmpty()) {		
-					tf_Quadrat_diag.setText(String.valueOf((double) Math.round(((Quadrat) quadrat).getD() * 100) / 100).replace(".", ","));
+					tf_Quadrat_diag.setText(String.valueOf((double) Math.round(((Quadrat) quadrat).getD() * div) / div).replace(".", ","));
 				}
 				if(tf_Quadrat_A.getText().isEmpty()) {
-					tf_Quadrat_A.setText(String.valueOf((double) Math.round(quadrat.getA() * 100) / 100).replace(".", ","));
+					tf_Quadrat_A.setText(String.valueOf((double) Math.round(quadrat.getA() * div) / div).replace(".", ","));
 				}
 				if(tf_Quadrat_U.getText().isEmpty()) {
-					tf_Quadrat_U.setText(String.valueOf((double) Math.round(quadrat.getU() * 100) / 100).replace(".", ","));
+					tf_Quadrat_U.setText(String.valueOf((double) Math.round(quadrat.getU() * div) / div).replace(".", ","));
 				}
 			} else {
 				JOptionPane.showMessageDialog(frmGeometrie, "Quadrat ist nicht Konstruierbar!", "Error", JOptionPane.ERROR_MESSAGE);
