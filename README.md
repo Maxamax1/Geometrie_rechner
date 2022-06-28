@@ -8,4 +8,4 @@ es kann folgende Geometrische Formen berechnen:
 - Quadrat
 - Rechteck
 
-Die Ergebnisse werden in einer Datenbank gespeichert und bei Bedarf abgerufen.
+Die Ergebnisse können in einer Datenbank gespeichert und bei Bedarf abgerufen werden.
