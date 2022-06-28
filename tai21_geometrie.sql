@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Erstellungszeit: 08. Jun 2022 um 12:57
+-- Erstellungszeit: 28. Jun 2022 um 09:41
 -- Server-Version: 5.7.20-log
 -- PHP-Version: 8.1.2
 
@@ -29,19 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `dreieck` (
   `DreieckID` int(11) NOT NULL,
-  `sidea` decimal(15,2) NOT NULL,
-  `sideb` decimal(15,2) NOT NULL,
-  `sidec` decimal(15,2) NOT NULL,
-  `alpha` decimal(15,2) NOT NULL,
-  `beta` decimal(15,2) NOT NULL,
-  `gamma` decimal(15,2) NOT NULL,
-  `ha` decimal(15,2) NOT NULL,
-  `hb` decimal(15,2) NOT NULL,
-  `hc` decimal(15,2) NOT NULL,
-  `flaeche` decimal(15,2) NOT NULL,
-  `umfang` decimal(15,2) NOT NULL,
-  `inradius` decimal(15,2) NOT NULL,
-  `umradius` decimal(15,2) NOT NULL
+  `sidea` decimal(20,8) NOT NULL,
+  `sideb` decimal(20,8) NOT NULL,
+  `sidec` decimal(20,8) NOT NULL,
+  `alpha` decimal(20,8) NOT NULL,
+  `beta` decimal(20,8) NOT NULL,
+  `gamma` decimal(20,8) NOT NULL,
+  `ha` decimal(20,8) NOT NULL,
+  `hb` decimal(20,8) NOT NULL,
+  `hc` decimal(20,8) NOT NULL,
+  `flaeche` decimal(20,8) NOT NULL,
+  `umfang` decimal(20,8) NOT NULL,
+  `inradius` decimal(20,8) NOT NULL,
+  `umradius` decimal(20,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -49,8 +49,7 @@ CREATE TABLE `dreieck` (
 --
 
 INSERT INTO `dreieck` (`DreieckID`, `sidea`, `sideb`, `sidec`, `alpha`, `beta`, `gamma`, `ha`, `hb`, `hc`, `flaeche`, `umfang`, `inradius`, `umradius`) VALUES
-(1, '5.00', '6.00', '7.00', '44.42', '57.12', '78.46', '5.88', '4.90', '4.20', '14.70', '18.00', '1.63', '3.57'),
-(2, '8.00', '7.00', '6.00', '75.52', '57.91', '46.57', '5.08', '5.81', '6.78', '20.33', '21.00', '1.94', '4.13');
+(1, '2.00000000', '4.00000000', '5.00000000', '22.33164501', '49.45839813', '108.20995686', '3.79967104', '1.89983552', '1.51986842', '3.79967104', '11.00000000', '0.69084928', '2.63180678');
 
 -- --------------------------------------------------------
 
@@ -60,10 +59,10 @@ INSERT INTO `dreieck` (`DreieckID`, `sidea`, `sideb`, `sidec`, `alpha`, `beta`, 
 
 CREATE TABLE `kreis` (
   `KreisID` int(11) NOT NULL,
-  `d` decimal(15,2) NOT NULL,
-  `U` decimal(15,2) NOT NULL,
-  `r` decimal(15,2) NOT NULL,
-  `A` decimal(15,2) NOT NULL
+  `d` decimal(20,8) NOT NULL,
+  `U` decimal(20,8) NOT NULL,
+  `r` decimal(20,8) NOT NULL,
+  `A` decimal(20,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -71,8 +70,7 @@ CREATE TABLE `kreis` (
 --
 
 INSERT INTO `kreis` (`KreisID`, `d`, `U`, `r`, `A`) VALUES
-(1, '32.00', '100.53', '16.00', '804.25'),
-(2, '10.00', '31.42', '5.00', '78.54');
+(1, '8.00000000', '25.13274123', '4.00000000', '50.26548246');
 
 -- --------------------------------------------------------
 
@@ -82,10 +80,10 @@ INSERT INTO `kreis` (`KreisID`, `d`, `U`, `r`, `A`) VALUES
 
 CREATE TABLE `quadrat` (
   `QuadratID` int(11) NOT NULL,
-  `sidea` decimal(15,2) NOT NULL,
-  `A` decimal(15,2) NOT NULL,
-  `U` decimal(15,2) NOT NULL,
-  `diag` decimal(15,2) NOT NULL
+  `sidea` decimal(20,8) NOT NULL,
+  `A` decimal(20,8) NOT NULL,
+  `U` decimal(20,8) NOT NULL,
+  `diag` decimal(20,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -93,14 +91,7 @@ CREATE TABLE `quadrat` (
 --
 
 INSERT INTO `quadrat` (`QuadratID`, `sidea`, `A`, `U`, `diag`) VALUES
-(1, '7.00', '49.00', '28.00', '9.90'),
-(2, '2.00', '4.00', '8.00', '2.83'),
-(3, '5.00', '25.00', '20.00', '7.07'),
-(4, '3.00', '9.00', '12.00', '4.24'),
-(5, '4.00', '16.00', '16.00', '5.66'),
-(6, '6.00', '36.00', '24.00', '8.49'),
-(7, '14.00', '196.00', '56.00', '19.80'),
-(8, '8.00', '64.00', '32.00', '11.31');
+(1, '7.00000000', '49.00000000', '28.00000000', '9.89949494');
 
 -- --------------------------------------------------------
 
@@ -110,15 +101,15 @@ INSERT INTO `quadrat` (`QuadratID`, `sidea`, `A`, `U`, `diag`) VALUES
 
 CREATE TABLE `rechteck` (
   `rechteckID` int(11) NOT NULL,
-  `Sidea` decimal(15,2) NOT NULL,
-  `Sideb` decimal(15,2) NOT NULL,
-  `diag` decimal(15,2) NOT NULL,
-  `area` decimal(15,2) NOT NULL,
-  `Umfang` decimal(15,2) NOT NULL,
-  `alpha` decimal(15,2) NOT NULL,
-  `beta` decimal(15,2) NOT NULL,
-  `gamma` decimal(15,2) NOT NULL,
-  `delta` decimal(15,2) NOT NULL
+  `Sidea` decimal(20,8) NOT NULL,
+  `Sideb` decimal(20,8) NOT NULL,
+  `diag` decimal(20,8) NOT NULL,
+  `area` decimal(20,8) NOT NULL,
+  `Umfang` decimal(20,8) NOT NULL,
+  `alpha` decimal(20,8) NOT NULL,
+  `beta` decimal(20,8) NOT NULL,
+  `gamma` decimal(20,8) NOT NULL,
+  `delta` decimal(20,8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -126,8 +117,8 @@ CREATE TABLE `rechteck` (
 --
 
 INSERT INTO `rechteck` (`rechteckID`, `Sidea`, `Sideb`, `diag`, `area`, `Umfang`, `alpha`, `beta`, `gamma`, `delta`) VALUES
-(1, '5.00', '8.00', '9.43', '40.00', '26.00', '57.99', '32.01', '64.01', '115.99'),
-(2, '7.00', '2.00', '7.28', '14.00', '18.00', '15.95', '74.05', '148.11', '31.89');
+(1, '5.00000000', '6.00000000', '7.81024968', '30.00000000', '22.00000000', '50.19442891', '39.80557109', '79.61114218', '100.38885782'),
+(2, '2.00000000', '4.00000000', '4.47213595', '8.00000000', '12.00000000', '63.43494882', '26.56505118', '53.13010235', '126.86989765');
 
 --
 -- Indizes der exportierten Tabellen
@@ -165,19 +156,19 @@ ALTER TABLE `rechteck`
 -- AUTO_INCREMENT für Tabelle `dreieck`
 --
 ALTER TABLE `dreieck`
-  MODIFY `DreieckID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `DreieckID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `kreis`
 --
 ALTER TABLE `kreis`
-  MODIFY `KreisID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `KreisID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `quadrat`
 --
 ALTER TABLE `quadrat`
-  MODIFY `QuadratID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `QuadratID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT für Tabelle `rechteck`
